@@ -13,7 +13,7 @@
 
 	<body>
 		<div class="main-content">
-		<form action="<c:url value='/admin-new'/>" id="formSubmit" method="get">
+		<form action="<c:url value='/admin/new/list'/>" id="formSubmit" method="get">
 				<div class="main-content-inner">
 					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 						<ul class="breadcrumb">
@@ -85,11 +85,8 @@
 												</tbody>
 											</table>
 											<ul class="pagination" id="pagination"></ul>
-											<input type="hidden" value="" id="page" name="page"/>
-											<input type="hidden" value="" id="maxPageItem" name="maxPageItem"/>
-											<input type="hidden" value="" id="sortName" name="sortName"/>
-											<input type="hidden" value="" id="sortBy" name="sortBy"/>
-											<input type="hidden" value="" id="type" name="type"/>
+											<input type="hidden" value="${model.page}" id="page" name="page"/>
+											<input type="hidden" value="${model.limit}" id="limit" name="limit"/>
 										</div>
 									</div>
 								</div>
@@ -101,51 +98,27 @@
 		</div>
 		<!-- /.main-content -->
 		<script>
-			var totalPages = ${model.totalPage};
-			var currentPage = ${model.page};
-			var limit = 2;
-			$(function () {
-				window.pagObj = $('#pagination').twbsPagination({
-					totalPages: totalPages,
-					visiblePages: 10,
-					startPage: currentPage,
-					onPageClick: function (event, page) {
-						if (currentPage != page) {
-							$('#maxPageItem').val(limit);
-							$('#page').val(page);
-							$('#sortName').val('title');
-							$('#sortBy').val('desc');
-							$('#type').val('list');
-							$('#formSubmit').submit();
-						}
-					}
-				});
-			});
-			
-			$("#btnDelete").click(function() {
-				var data = {};
-				var ids = $('tbody input[type=checkbox]:checked').map(function () {
-		            return $(this).val();
-		        }).get();
-				data['ids'] = ids;
-				deleteNew(data);
-			});
-			
-			function deleteNew(data) {
-		        $.ajax({
-		            url: '${APIurl}',
-		            type: 'DELETE',
-		            contentType: 'application/json',
-		            data: JSON.stringify(data),
-		            success: function (result) {
-		                window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=delete_success";
-		            },
-		            error: function (error) {
-		            	window.location.href = "${NewURL}?type=list&maxPageItem=2&page=1&message=error_system";
-		            }
-		        });
-		    }
-		</script>
+		var currentPage = ${model.page};
+		var totalPage = ${model.totalPage};
+		var limit = ${model.limit};
+		console.log(currentPage, totalPage, limit);
+	    $(function () {
+	        window.pagObj = $('#pagination').twbsPagination({
+	            totalPages: totalPage,
+	            visiblePages: 3,
+	            startPage: currentPage,
+	            onPageClick: function (event, page) {
+	                if(currentPage != page) {
+	                	$("#limit").val(limit);
+	                	$("#page").val(page);
+	                	$("#formSubmit").submit();
+	                }
+	            }
+	        }).on('page', function (event, page) {
+	            console.info(page + ' (from event listening)');
+	        });
+	    });		
+	    </script>
 	</body>
 
 	</html>

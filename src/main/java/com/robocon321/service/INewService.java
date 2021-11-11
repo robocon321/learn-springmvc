@@ -2,8 +2,12 @@ package com.robocon321.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
+import com.robocon321.dto.NewDTO;
 import com.robocon321.model.NewModel;
 
 public interface INewService {
-	List<NewModel> findAll();
+	List<NewDTO> findAll(Pageable pageable);
+	int getTotalItem();
 }
