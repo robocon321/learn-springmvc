@@ -16,7 +16,7 @@ import com.robocon321.mapper.RowMapper;
 
 public class AbstractDAO<T> implements GenericDAO<T> {
     private static String DB_URL = "jdbc:sqlserver://localhost:1433;"
-            + "databaseName=jspservletjdbc;";
+            + "databaseName=springmvc;";
     private static String USER_NAME = "sa";
     private static String PASSWORD = "0123456789";
 	

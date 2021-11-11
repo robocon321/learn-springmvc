@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JPAConfig {
     private static String DRIVER_CLASS_NAME = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static String DB_URL = "jdbc:sqlserver://localhost:1433;"
-            + "databaseName=jspservletjdbc;";
+            + "databaseName=springmvc;";
     private static String USER_NAME = "sa";
     private static String PASSWORD = "0123456789";
 
@@ -61,7 +61,9 @@ public class JPAConfig {
 	
 	Properties additionProperties() {
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "none");
+//		properties.setProperty("hibernate.hbm2ddl.auto", "none");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		properties.setProperty("hibernate.enable_lazy_load_no_trans", "true");
 		return properties;
 	}
 }

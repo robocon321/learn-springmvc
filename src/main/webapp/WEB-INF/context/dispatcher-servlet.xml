@@ -21,7 +21,7 @@
               http://www.springframework.org/schema/context/spring-context.xsd">
 
    <context:component-scan
-      base-package="com.robocon321.controller" />
+      base-package="com.robocon321.controller , com.robocon321.api" />
 
    <mvc:annotation-driven />
 

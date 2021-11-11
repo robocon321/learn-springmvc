@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.microsoft.sqlserver.jdbc.StringUtils;
 import com.robocon321.dao.INewDAO;
 import com.robocon321.mapper.NewMapper;
 import com.robocon321.model.NewModel;
