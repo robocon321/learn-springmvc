@@ -27,18 +27,14 @@
 					<div class="page-content">
 						<div class="row">
 							<div class="col-xs-12">
-								<c:if test="${not empty messageResponse}">
-									<div class="alert alert-${alert}">
-  										${messageResponse}
-									</div>
-								</c:if>
 								<div class="widget-box table-filter">
 									<div class="table-btn-controls">
 										<div class="pull-right tableTools-container">
 											<div class="dt-buttons btn-overlap btn-group">
+											<c:url var="createNewUrl" value="/admin/new/edit" />
 												<a flag="info"
 												   class="dt-button buttons-colvis btn btn-white btn-primary btn-bold" data-toggle="tooltip"
-												   title='Thêm bài viết' href='<c:url value="/admin-new?type=edit"/>'>
+												   title='Thêm bài viết' href="${createNewUrl}">
 															<span>
 																<i class="fa fa-plus-circle bigger-110 purple"></i>
 															</span>
@@ -72,12 +68,11 @@
 															<td>${item.title}</td>
 															<td>${item.shortDescription}</td>
 															<td>
-																<c:url var="editURL" value="/admin-new">
-																	<c:param name="type" value="edit"/>
+																<c:url var="updateNewUrl" value="/admin/new/edit">
 																	<c:param name="id" value="${item.id}"/>
 																</c:url>
 																<a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
-																   title="Cập nhật bài viết" href='${editURL}'><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+																   title="Cập nhật bài viết" href='${updateNewUrl}'><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 																</a>
 															</td>
 														</tr>

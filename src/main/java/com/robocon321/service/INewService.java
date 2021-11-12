@@ -10,4 +10,5 @@ import com.robocon321.model.NewModel;
 public interface INewService {
 	List<NewDTO> findAll(Pageable pageable);
 	int getTotalItem();
+	NewDTO findById(long id);
 }

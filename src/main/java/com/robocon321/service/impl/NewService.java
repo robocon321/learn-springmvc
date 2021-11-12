@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.robocon321.converter.NewConverter;
 import com.robocon321.dao.INewDAO;
 import com.robocon321.dto.NewDTO;
 import com.robocon321.entity.NewEntity;
@@ -20,15 +21,15 @@ public class NewService implements INewService {
 	
 	@Autowired
 	private NewRepository newRepository;
+	
+	@Autowired
+	private NewConverter newConverter;
 
 	@Override
 	public List<NewDTO> findAll(Pageable pageable) {
 		List<NewDTO> results = new ArrayList<NewDTO>();
 		for(NewEntity entity : newRepository.findAll(pageable)) {
-			NewDTO model = new NewDTO();
-			model.setTitle(entity.getTitle());
-			model.setShortDescription(entity.getShortDescription());
-			model.setContent(entity.getContent());
+			NewDTO model = newConverter.toDTO(entity);
 			results.add(model);
 		}
 		return results;
@@ -37,5 +38,10 @@ public class NewService implements INewService {
 	@Override
 	public int getTotalItem() {
 		return (int) newRepository.count();
+	}
+
+	@Override
+	public NewDTO findById(long id) {
+		return newConverter.toDTO(newRepository.findOne(id));
 	}
 }
