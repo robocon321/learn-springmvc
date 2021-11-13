@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class JPAAuditingConfig {
 	@Bean
 	public AuditorAware<String> auditorProvider() {
-		return null;
+		return new AuditorAwareImpl();
 	}
 	
 	public static class AuditorAwareImpl implements AuditorAware<String> {

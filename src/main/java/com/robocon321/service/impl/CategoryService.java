@@ -2,7 +2,6 @@ package com.robocon321.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,4 +40,8 @@ public class CategoryService implements ICategoryService{
 		return categoryConverter.toDTO(categoryRepository.findOne(id));
 	}
 
+	@Override
+	public CategoryEntity getCategoryByCode(String code) {
+		return categoryRepository.findOneByCode(code);
+	}	
 }

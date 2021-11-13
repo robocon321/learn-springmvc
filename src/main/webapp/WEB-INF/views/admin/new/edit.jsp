@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp"%>
-<c:url var="APIurl" value="/api-admin-new"/>
-<c:url var ="NewURL" value="/admin-new"/>
+<c:url var="newAPI" value="/api/new"/>
+<c:url var ="newURL" value="/admin/new/list"/>
+<c:url var ="newEdit" value="/admin/new/edit"/>
 <html>
 <head>
     <title>Chỉnh sửa bài viết</title>
@@ -21,6 +22,11 @@
                 <li class="active">Chỉnh sửa bài viết</li>
             </ul><!-- /.breadcrumb -->
         </div>
+        <c:if test="${not empty error}">
+			<div class="alert alert-danger" role="alert">
+			  ${error}
+			</div>        
+        </c:if>
         <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
@@ -28,7 +34,7 @@
                             <div class="form-group">
                                 <label for="categoryCode" class="col-sm-3 control-label no-padding-right">Thể loại</label>
                                 <div class="col-sm-9">
-                                    <form:select cssClass="form-control" id="categoryCode" name="categoryCode" path="categoryCode">
+                                    <form:select cssClass="form-control" id="categoryCode" path="categoryCode">
 									    <form:option value=""> --SELECT--</form:option>
 									    <form:options items="${categories}" ></form:options>
                                     </form:select>
@@ -39,7 +45,7 @@
                             <div class="form-group">
                                 <label for="title" id="title" class="col-sm-3 control-label no-padding-right">Tên bài viết</label>
                                 <div class="col-sm-9">
-                                    <form:input type="text" cssClass="form-control" id="title" name="title" path="title" />
+                                    <form:input type="text" cssClass="form-control" id="title" path="title" />
                                 </div>
                             </div>
                             <br/>
@@ -47,7 +53,7 @@
                             <div class="form-group">
                                 <label for="thumbnail" class="col-sm-3 control-label no-padding-right">Hình đại diện</label>
                                 <div class="col-sm-9">
-                                    <form:input type="file" cssClass="form-control" id="thumbnail" name="thumbnail" path="thumbnail" />
+                                    <form:input type="file" cssClass="form-control" id="thumbnail" path="thumbnail" />
                                 </div>
                             </div>
                             <br/>
@@ -55,7 +61,7 @@
                             <div class="form-group">
                                 <label for="shortDescription" class="col-sm-3 control-label no-padding-right">Mô tả ngắn</label>
                                 <div class="col-sm-9">
-                                    <form:textarea rows="5" cols="10" cssClass="form-control" id="shortDescription" name="shortDescription" path="shortDescription"></form:textarea>
+                                    <form:textarea rows="5" cols="10" cssClass="form-control" id="shortDescription" path="shortDescription"></form:textarea>
                                 </div>
                             </div>
                             <br/>
@@ -63,7 +69,7 @@
                             <div class="form-group">
                                 <label for="content" class="col-sm-3 control-label no-padding-right">Nội dung</label>
                                 <div class="col-sm-9">                                 
-                                    <form:textarea rows="5" cols="10" cssClass="form-control" id="content" name="content" path="content"></form:textarea>
+                                    <form:textarea rows="5" cols="10" cssClass="form-control" id="content" path="content"></form:textarea>
                                 </div>
                             </div>
                             <br/>
@@ -79,6 +85,7 @@
 	                               <input type="button" class="btn btn-white btn-danger btn-bold" value="Hủy" id="btnReset"/>
                                </div>								
                             </div>
+                            <form:input type="hidden" id="newId" path="id" />
                         </form:form>
                 </div>
             </div>
@@ -89,8 +96,51 @@
 	$("#btnAddOrUpdateNew").click(function(e) {
 		e.preventDefault();
 		var formSubmit = $("#formSubmit").serializeArray();
-		console.log(formSubmit);
+		var id = $("newId").val();
+		var data = {};
+		formSubmit.forEach(item => {
+			data[item.name] = item.value;
+		});
+		
+		if(id == "") {
+			addNew(data);
+		} else {
+			editNew(data);
+		}		
 	});
+
+	function addNew(data) {
+		$.ajax({
+			url: "${newAPI}",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			datatype: "json",
+			success: function (result) {
+				window.location.href = "${newURL}?page=1&limit=2";
+			},
+			error: function (error) {
+				window.location.href = "${newEdit}?error=System error";
+			}
+		})
+	}
+	
+	function editNew (data) {
+		$.ajax({
+			url: "${newAPI}",
+			type: "PUT",
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			datatype: "json",
+			success: function (result) {
+				window.location.href = "${newURL}?page=1&limit=2";
+			},
+			error: function (error) {
+				window.location.href = "${newEdit}?error=System error";
+			}
+		})			
+	}
+
 </script>
 </body>
 </html>

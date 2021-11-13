@@ -27,7 +27,7 @@ public class NewController {
   private ICategoryService categoryService;
 	
    @RequestMapping(value = "/admin/new/list", method = RequestMethod.GET)
-   public ModelAndView show(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+   public ModelAndView show(@RequestParam("page") int page, @RequestParam("limit") int limit,  @RequestParam(value="error", required = false) String error) {
 	  NewDTO dto = new NewDTO();
 	  int totalItem = newService.getTotalItem();
       ModelAndView mav = new ModelAndView("admin/new/list");
@@ -37,12 +37,13 @@ public class NewController {
       dto.setTotalPage((int) Math.ceil(totalItem / limit));
       dto.setPage(page);
       dto.setLimit(limit);
+      if(error != null) mav.addObject("error", error);
       mav.addObject("model", dto);
       return mav;
    }
    
    @RequestMapping(value = "/admin/new/edit" , method = RequestMethod.GET)
-   public ModelAndView edit(@RequestParam(value = "id", required = false) Long id) {
+   public ModelAndView edit(@RequestParam(value = "id", required = false) Long id, @RequestParam(value="error", required = false) String error) {
       ModelAndView mav = new ModelAndView("admin/new/edit");
       NewDTO model = new NewDTO();
       if(id != null) {
@@ -56,6 +57,7 @@ public class NewController {
       }
       mav.addObject("categories", categoryMaps);
       mav.addObject("model", model);
+      if(error != null) mav.addObject("error", error);
       return mav;
    }
 

@@ -4,5 +4,6 @@
         <class>com.robocon321.entity.NewEntity</class>
         <class>com.robocon321.entity.AccountEntity</class>
         <class>com.robocon321.entity.RoleEntity</class>
+        <class>com.robocon321.entity.CategoryEntity</class>        
     </persistence-unit>
 </persistence>

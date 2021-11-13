@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.robocon321.entity.CategoryEntity;
 
-@Repository
 public interface CategoryRepository  extends JpaRepository<CategoryEntity, Long> {
-
+	CategoryEntity findOneByCode(String code);
 }
